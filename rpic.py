@@ -1,3 +1,4 @@
+#!/usr/bin/env /home/mohh/anaconda3/bin/python
 """Downloads a random image from wallhaven.cc"""
 import requests
 
