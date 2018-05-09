@@ -1,10 +1,9 @@
 #!/usr/bin/env /home/mohh/anaconda3/bin/python
 """Downloads a random image from wallhaven.cc"""
-import requests
-
-from os import path, mkdir, system
+from os import mkdir, path
 from shutil import copyfile
 
+import requests
 from bs4 import BeautifulSoup
 
 
@@ -12,13 +11,13 @@ class Wallhaven(object):
     """Wallhaven image object
 
     Set the purity filter setting
-        SFW			    = 100
-        Sketchy			= 010
-        Both			= 110
+        SFW             = 100
+        Sketchy         = 010
+        Both            = 110
 
     Set the category
-        General		    = 100
-        Manga/Anime	    = 010
+        General         = 100
+        Manga/Anime     = 010
         People          = 001
 
         NOTE: Can combine them
@@ -31,7 +30,13 @@ class Wallhaven(object):
     IMG_PATH = path.join(IMG_FOLDER, IMG)
     WALLPAPERS = path.join(IMG_FOLDER, WALLS)
 
-    def __init__(self, purity=100, categories=111, sorting="random", order="desc"):
+    def __init__(
+            self,
+            purity=100,
+            categories=111,
+            sorting="random",
+            order="desc",
+    ):
         self.purity = purity
         self.categories = categories
         self.sorting = sorting
@@ -44,27 +49,65 @@ class Wallhaven(object):
 
     @staticmethod
     def check_dir(folder):
-        """Checks to see if a certain directory exist and creates it if it doesn't"""
+        """
+        Verifies directory structure
+
+        Checks to see if a certain directory exist and creates it if it doesn't
+        """
         if not path.exists(folder):
             mkdir(folder)
 
     @property
     def construct_url(self):
-        """Takes the properties that were set for the object and constructs a proper url with them"""
-        url = f"https://alpha.{self.SITE}/search?categories={self.categories}&purity={self.purity}&sorting=" f"{self.sorting}&order={self.order}"
+        """
+        Constructs a proper url
+
+        With the properties that were set for the object
+        """
+        url = f"https://alpha.{self.SITE}/search?" \
+              f"categories={self.categories}&" \
+              f"purity={self.purity}&sorting=" \
+              f"{self.sorting}&order={self.order}"
         return url
 
     @staticmethod
+    def download_image(image_loc, url):
+        """
+        Downloads the image
+
+        Retrieves the image and saves it to the path provided
+        """
+        with open(image_loc, 'wb') as image:
+            response = requests.get(url, stream=True)
+
+            if not response.ok:
+                print(response)
+
+            for block in response.iter_content(1024):
+                if not block:
+                    break
+
+                image.write(block)
+
+    @staticmethod
     def get(url):
-        """Retrieves the webpage and creates a BeautifulSoup object from it"""
-        r = requests.get(url)
-        html = r.text
+        """
+        Retrieves the webpage
+
+        And creates a BeautifulSoup object from it
+        """
+        response = requests.get(url)
+        html = response.text
 
         soup = BeautifulSoup(html, "html.parser")
         return soup
 
     def get_images(self):
-        """Extract the image urls from the soup object and creates a list of them"""
+        """
+        Extract image urls
+
+        From the soup object and creates a list of them
+        """
         imgs = []
         soup = self.get(self.url)
         previews = soup.find_all("a", class_="preview")
@@ -74,7 +117,11 @@ class Wallhaven(object):
         return imgs
 
     def next(self):
-        """Parses the full image url from the image page and downloads it"""
+        """
+        Retrieves the next image
+
+        Parses the full image url from the image page and downloads it
+        """
         if self.current <= len(self.images) - 1:
             soup = self.get(self.images[self.current])
             img_tags = soup.find_all("img")
@@ -84,11 +131,9 @@ class Wallhaven(object):
                     src = "https:" + img["src"]
                     alt = img["alt"]
 
-                    # TODO: Figure out a pythonic way of downloading the image
-                    cmd = f"curl -s -o {self.IMG_PATH} {src}"
-                    system(cmd)
-
+                    self.download_image(self.IMG_PATH, src)
                     print(f"Retrieved: {alt}")
+
                     save = input("Would you like to backup the image (y/[n])? ")
                     if "y" in save.lower():
                         img_name = src.split("/")[-1]
@@ -105,7 +150,9 @@ class Wallhaven(object):
 
 
 def main():
-    """Main entry point to the program"""
+    """
+    Main entry point to the program
+    """
     keepem_coming = True
 
     haven = Wallhaven()
