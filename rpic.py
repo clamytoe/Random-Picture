@@ -90,7 +90,7 @@ class Wallhaven(object):
                     system(cmd)
 
                     print(f'Retrieved: {alt}')
-                    save = input('Would you like to backup the image (y/n)? ')
+                    save = input('Would you like to backup the image (y/[n])? ')
                     if 'y' in save.lower():
                         img_name = src.split('/')[-1]
                         wallpaper = path.join(self.WALLPAPERS, img_name)
@@ -113,11 +113,11 @@ def main():
     haven.next()
 
     while keepem_coming:
-        answer = input('Would you like a different image(y/n)? ')
-        if 'y' in answer.lower():
-            haven.next()
-        else:
+        answer = input('Would you like a different image([y]/n)? ')
+        if 'n' in answer.lower():
             keepem_coming = False
+        else:
+            haven.next()
 
 
 if __name__ == '__main__':
