@@ -1,0 +1,7 @@
+name: rpic
+channels:
+  - defaults
+dependencies:
+  - beautifulsoup4=4.6.0
+  - python=3.6.5
+  - requests
