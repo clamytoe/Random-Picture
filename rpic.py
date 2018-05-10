@@ -7,7 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class Wallhaven(object):
+class Wallhaven:
     """Wallhaven image object
 
     Set the purity filter setting
@@ -22,13 +22,6 @@ class Wallhaven(object):
 
         NOTE: Can combine them
     """
-    SITE = "wallhaven.cc"
-    IMG = "wallpaper.jpg"
-    WALLS = "wallpaper"
-    HOME = path.expanduser("~")
-    IMG_FOLDER = path.join(HOME, "Pictures")
-    IMG_PATH = path.join(IMG_FOLDER, IMG)
-    WALLPAPERS = path.join(IMG_FOLDER, WALLS)
 
     def __init__(
             self,
@@ -41,11 +34,18 @@ class Wallhaven(object):
         self.categories = categories
         self.sorting = sorting
         self.order = order
-        self.url = self.construct_url
+        self.site = "wallhaven.cc"
         self.img_path = "//wallpapers.wallhaven.cc/wallpapers/full/"
+        self.img = "wallpaper.jpg"
+        self.walls = "wallpaper"
+        self.home = path.expanduser("~")
+        self.img_folder = path.join(self.home, "Pictures")
+        self.local_path = path.join(self.img_folder, self.img)
+        self.wallpapers = path.join(self.img_folder, self.walls)
+        self.check_dir(self.img_folder)
+        self.url = self.construct_url
         self.images = self.get_images()
         self.current = 0
-        self.check_dir(self.IMG_FOLDER)
 
     @staticmethod
     def check_dir(folder):
@@ -64,7 +64,7 @@ class Wallhaven(object):
 
         With the properties that were set for the object
         """
-        url = f"https://alpha.{self.SITE}/search?" \
+        url = f"https://alpha.{self.site}/search?" \
               f"categories={self.categories}&" \
               f"purity={self.purity}&sorting=" \
               f"{self.sorting}&order={self.order}"
@@ -96,11 +96,14 @@ class Wallhaven(object):
 
         And creates a BeautifulSoup object from it
         """
-        response = requests.get(url)
-        html = response.text
-
-        soup = BeautifulSoup(html, "html.parser")
-        return soup
+        try:
+            response = requests.get(url)
+            html = response.text
+            soup = BeautifulSoup(html, "html.parser")
+            return soup
+        except requests.exceptions.ConnectionError:
+            print("Not able to establish a connection with the server.")
+            exit(1)
 
     def get_images(self):
         """
@@ -131,14 +134,14 @@ class Wallhaven(object):
                     src = "https:" + img["src"]
                     alt = img["alt"]
 
-                    self.download_image(self.IMG_PATH, src)
+                    self.download_image(self.local_path, src)
                     print(f"Retrieved: {alt}")
 
                     save = input("Backup the image (y/[n])? ")
                     if "y" in save.lower():
                         img_name = src.split("/")[-1]
-                        wallpaper = path.join(self.WALLPAPERS, img_name)
-                        copyfile(self.IMG_PATH, wallpaper)
+                        wallpaper = path.join(self.wallpapers, img_name)
+                        copyfile(self.local_path, wallpaper)
 
                     self.current += 1
 
