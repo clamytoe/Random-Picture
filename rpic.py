@@ -134,7 +134,7 @@ class Wallhaven(object):
                     self.download_image(self.IMG_PATH, src)
                     print(f"Retrieved: {alt}")
 
-                    save = input("Would you like to backup the image (y/[n])? ")
+                    save = input("Backup the image (y/[n])? ")
                     if "y" in save.lower():
                         img_name = src.split("/")[-1]
                         wallpaper = path.join(self.WALLPAPERS, img_name)
