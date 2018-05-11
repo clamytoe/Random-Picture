@@ -1,4 +1,3 @@
-#!/usr/bin/env /home/mohh/anaconda3/bin/python
 """Downloads a random image from wallhaven.cc"""
 from os import mkdir, path
 from shutil import copyfile
