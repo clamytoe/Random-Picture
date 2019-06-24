@@ -1,12 +1,15 @@
 #!/usr/bin/env /home/mohh/anaconda3/bin/python
 """Downloads a random image from wallhaven.cc"""
+from dataclasses import dataclass
 from os import mkdir, path
 from shutil import copyfile
+from typing import Any, List
 
 import requests
 from bs4 import BeautifulSoup
 
 
+@dataclass
 class Wallhaven:
     """Wallhaven image object
 
@@ -23,26 +26,28 @@ class Wallhaven:
         NOTE: Can combine them
     """
 
-    def __init__(self, purity=100, categories=111, sorting="random", order="desc"):
-        self.purity = purity
-        self.categories = categories
-        self.sorting = sorting
-        self.order = order
-        self.site = "wallhaven.cc"
-        self.img_path = "//wallpapers.wallhaven.cc/wallpapers/full/"
-        self.img = "wallpaper.jpg"
-        self.walls = "wallpaper"
-        self.home = path.expanduser("~")
-        self.img_folder = path.join(self.home, "Pictures")
-        self.local_path = path.join(self.img_folder, self.img)
-        self.wallpapers = path.join(self.img_folder, self.walls)
+    purity: int = 100
+    categories: int = 111
+    sorting: str = "random"
+    order: str = "desc"
+
+    def __post_init__(self):
+        self.site: str = "wallhaven.cc"
+        self.img_path: str = "//wallpapers.wallhaven.cc/wallpapers/full/"
+        self.img: str = "wallpaper.jpg"
+        self.walls: str = "wallpaper"
+        self.home: str = path.expanduser("~")
+        self.img_folder: path = path.join(self.home, "Pictures")
+        self.local_path: path = path.join(self.img_folder, self.img)
+        self.wallpapers: path = path.join(self.img_folder, self.walls)
+        self.url: str = self.construct_url
+        self.images: List[Any] = self.get_images()
+        self.current: int = 0
+
         self.check_dir(self.img_folder)
-        self.url = self.construct_url
-        self.images = self.get_images()
-        self.current = 0
 
     @staticmethod
-    def check_dir(folder):
+    def check_dir(folder: str) -> None:
         """
         Verifies directory structure
 
@@ -52,7 +57,7 @@ class Wallhaven:
             mkdir(folder)
 
     @property
-    def construct_url(self):
+    def construct_url(self) -> str:
         """
         Constructs a proper url
 
@@ -67,7 +72,7 @@ class Wallhaven:
         return url
 
     @staticmethod
-    def download_image(image_loc, url):
+    def download_image(image_loc: str, url: str) -> None:
         """
         Downloads the image
 
@@ -86,7 +91,7 @@ class Wallhaven:
                 image.write(block)
 
     @staticmethod
-    def get(url):
+    def get(url: str) -> BeautifulSoup:
         """
         Retrieves the webpage
 
@@ -101,7 +106,7 @@ class Wallhaven:
             print("Not able to establish a connection with the server.")
             exit(1)
 
-    def get_images(self):
+    def get_images(self) -> List[Any]:
         """
         Extract image urls
 
@@ -116,7 +121,7 @@ class Wallhaven:
 
         return imgs
 
-    def next(self):
+    def next(self) -> None:
         """
         Retrieves the next image
 
@@ -139,7 +144,6 @@ class Wallhaven:
                 copyfile(self.local_path, wallpaper)
 
             self.current += 1
-
         else:
             # at the end of the list of images, get a new batch
             self.current = 0
@@ -147,7 +151,7 @@ class Wallhaven:
             self.next()
 
 
-def main():
+def main() -> None:
     """
     Main entry point to the program
     """
