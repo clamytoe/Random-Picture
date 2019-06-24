@@ -23,13 +23,7 @@ class Wallhaven:
         NOTE: Can combine them
     """
 
-    def __init__(
-            self,
-            purity=100,
-            categories=111,
-            sorting="random",
-            order="desc",
-    ):
+    def __init__(self, purity=100, categories=111, sorting="random", order="desc"):
         self.purity = purity
         self.categories = categories
         self.sorting = sorting
@@ -64,10 +58,12 @@ class Wallhaven:
 
         With the properties that were set for the object
         """
-        url = f"https://alpha.{self.site}/search?" \
-              f"categories={self.categories}&" \
-              f"purity={self.purity}&sorting=" \
-              f"{self.sorting}&order={self.order}"
+        url = (
+            f"https://{self.site}/search?"
+            f"categories={self.categories}&"
+            f"purity={self.purity}&sorting="
+            f"{self.sorting}&order={self.order}"
+        )
         return url
 
     @staticmethod
@@ -77,7 +73,7 @@ class Wallhaven:
 
         Retrieves the image and saves it to the path provided
         """
-        with open(image_loc, 'wb') as image:
+        with open(image_loc, "wb") as image:
             response = requests.get(url, stream=True)
 
             if not response.ok:
@@ -117,6 +113,7 @@ class Wallhaven:
 
         for link in previews:
             imgs.append(link["href"])
+
         return imgs
 
     def next(self):
@@ -127,23 +124,21 @@ class Wallhaven:
         """
         if self.current <= len(self.images) - 1:
             soup = self.get(self.images[self.current])
-            img_tags = soup.find_all("img")
+            img_tag = soup.find("img", {"id": "wallpaper"})
 
-            for img in img_tags:
-                if self.img_path in img["src"]:
-                    src = "https:" + img["src"]
-                    alt = img["alt"]
+            src = img_tag["src"]
+            alt = img_tag["alt"]
 
-                    self.download_image(self.local_path, src)
-                    print(f"Retrieved: {alt}")
+            self.download_image(self.local_path, src)
+            print(f"Retrieved: {alt}")
 
-                    save = input("Backup the image (y/[n])? ")
-                    if "y" in save.lower():
-                        img_name = src.split("/")[-1]
-                        wallpaper = path.join(self.wallpapers, img_name)
-                        copyfile(self.local_path, wallpaper)
+            save = input("Backup the image (y/[n])? ")
+            if "y" in save.lower():
+                img_name = src.split("/")[-1]
+                wallpaper = path.join(self.wallpapers, img_name)
+                copyfile(self.local_path, wallpaper)
 
-                    self.current += 1
+            self.current += 1
 
         else:
             # at the end of the list of images, get a new batch
