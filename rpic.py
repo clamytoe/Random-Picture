@@ -6,7 +6,7 @@ from shutil import copyfile
 from typing import Any, List
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup  # type: ignore
 
 
 @dataclass
