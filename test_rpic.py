@@ -14,3 +14,7 @@ def test_url(haven):
         "atleast=1920x1080&sorting=random&order=desc"
     )
     assert haven.url == url
+
+
+def test_local_path(haven):
+    assert haven.local_path == "/home/mohh/Pictures/wallpaper.jpg"
