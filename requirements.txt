@@ -1,6 +1,9 @@
 beautifulsoup4
 black
+flake8
 isort
 mypy
+pubsub
 pytest
 requests
+wxpython
