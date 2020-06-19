@@ -8,6 +8,8 @@ from typing import Any, List
 import requests
 from bs4 import BeautifulSoup  # type: ignore
 
+__version__ = 2.0
+
 
 @dataclass
 class Wallhaven:
