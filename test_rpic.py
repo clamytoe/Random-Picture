@@ -1,4 +1,4 @@
-from os import path, rmdir
+from os import path, rmdir, unlink
 import pytest
 
 from rpic import Wallhaven
@@ -32,3 +32,12 @@ def test_check_dir(haven):
     assert path.exists(tmp)
     assert path.isdir(tmp)
     rmdir(tmp)
+
+
+def test_download_image(haven):
+    url = "https://wallhaven.cc/images/layout/logo_sm.png"
+    image_loc = path.join(haven.img_folder, "test.jpg")
+    assert not path.exists(image_loc)
+    haven.download_image(image_loc, url)
+    assert path.exists(image_loc)
+    unlink(image_loc)
