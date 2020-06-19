@@ -27,6 +27,7 @@ class Wallhaven:
     """
 
     purity: int = 100
+    atleast: str = "1920x1080"
     categories: int = 111
     sorting: str = "random"
     order: str = "desc"
@@ -66,8 +67,10 @@ class Wallhaven:
         url = (
             f"https://{self.site}/search?"
             f"categories={self.categories}&"
-            f"purity={self.purity}&sorting="
-            f"{self.sorting}&order={self.order}"
+            f"purity={self.purity}&"
+            f"atleast={self.atleast}&"
+            f"sorting={self.sorting}&"
+            f"order={self.order}"
         )
         return url
 
