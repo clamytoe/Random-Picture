@@ -46,6 +46,7 @@ class Wallhaven:
         self.current: int = 0
 
         self.check_dir(self.img_folder)
+        self.check_dir(self.wallpapers)
 
     @staticmethod
     def check_dir(folder: str) -> None:
