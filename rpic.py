@@ -36,7 +36,7 @@ class Wallhaven:
         self.site: str = "wallhaven.cc"
         self.img_path: str = "//wallpapers.wallhaven.cc/wallpapers/full/"
         self.img: str = "wallpaper.jpg"
-        self.walls: str = "wallpaper"
+        self.walls: str = "wallpapers"
         self.home: str = path.expanduser("~")
         self.img_folder: path = path.join(self.home, "Pictures")
         self.local_path: path = path.join(self.img_folder, self.img)
