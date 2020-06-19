@@ -87,6 +87,7 @@ class Wallhaven:
 
             if not response.ok:
                 print(response)
+                exit(0)
 
             for block in response.iter_content(1024):
                 if not block:
