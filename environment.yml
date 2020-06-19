@@ -1,13 +1,14 @@
 name: rpic
 channels:
   - defaults
+  - conda-forge
 dependencies:
   - beautifulsoup4
+  - black
   - isort
   - mypy
   - pip
-  - python=3.7.3
+  - python=3.8.3
   - pytest
   - requests
-  - pip:
-    - black
+
