@@ -41,3 +41,14 @@ def test_download_image(haven):
     haven.download_image(image_loc, url)
     assert path.exists(image_loc)
     unlink(image_loc)
+
+
+def test_download_image_bad_url(haven, capfd):
+    url = "https://webgenetics.com/wg_logo.png"
+    image_loc = path.join(haven.img_folder, "wg_logo.png")
+    assert not path.exists(image_loc)
+    with pytest.raises(SystemExit):
+        haven.download_image(image_loc, url)
+    output = capfd.readouterr()[0].strip()
+    assert output == "<Response [404]>"
+    unlink(image_loc)
