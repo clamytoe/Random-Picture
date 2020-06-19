@@ -18,3 +18,7 @@ def test_url(haven):
 
 def test_local_path(haven):
     assert haven.local_path == "/home/mohh/Pictures/wallpaper.jpg"
+
+
+def test_wallpapers(haven):
+    assert haven.wallpapers == "/home/mohh/Pictures/wallpapers"
