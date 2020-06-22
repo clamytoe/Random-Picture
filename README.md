@@ -29,21 +29,39 @@ I've written the script so that default actions are performed by simply hitting 
 ```bash
 python rpic.py
 Retrieved: Anime 1920x1080 anime Bleach
-Backup the image (y/[n])? 
-Would you like a different image([y]/n)? 
+Backup the image (y/[n])?
+Would you like a different image([y]/n)?
 Retrieved: People 1202x800 gamers Fnatic
-Backup the image (y/[n])? 
-Would you like a different image([y]/n)? 
+Backup the image (y/[n])?
+Would you like a different image([y]/n)?
 Retrieved: Anime 1920x1174 Clannad anime Sakagami Tomoyo Fujibayashi Kyou Sunohara Yôhei
-Backup the image (y/[n])? 
-Would you like a different image([y]/n)? 
+Backup the image (y/[n])?
+Would you like a different image([y]/n)?
 Retrieved: General 1920x1080 nature landscape
-Backup the image (y/[n])? 
-Would you like a different image([y]/n)? 
+Backup the image (y/[n])?
+Would you like a different image([y]/n)?
 Retrieved: People 2048x1363 women model brunette blue eyes portrait Eraj Asadi
-Backup the image (y/[n])? 
-Would you like a different image([y]/n)? 
+Backup the image (y/[n])?
+Would you like a different image([y]/n)?
 Retrieved: General 1920x1080 The Witcher 3: Wild Hunt video games
 Backup the image (y/[n])? y
 Would you like a different image([y]/n)? n
 ```
+
+## Using the GUI Interface
+
+I've added a graphical interface in order to be able to preview the images before downloading the full size one.
+
+```bash
+python gui.py
+```
+
+![gui](images/gui.png)
+
+* ![reload](images/reload.png) Retrieve a new set of images
+* ![save](images/save.png) Save the current image
+* ![previous](images/previous.png) Load the previous image
+* ![slideshow](images/slideshow.png) Start the slideshow
+* ![next](images/next.png) Load the next image
+
+> Note: The slideshow button turns into a STOP button when it's running so that you can stop it.
