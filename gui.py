@@ -47,7 +47,7 @@ class ImagePanel(wx.Panel):
         WH.download_image(WH.local_path, src)
         self.image_label.SetLabel("Image Saved!")
         WH.save(src)
-        self.Refresh()
+        self.Layout()
 
     def layout(self) -> None:
         """Sets up the interface layout"""
