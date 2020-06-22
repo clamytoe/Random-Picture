@@ -45,7 +45,9 @@ class ImagePanel(wx.Panel):
         alt = img_tag["alt"]
 
         WH.download_image(WH.local_path, src)
+        self.image_label.SetLabel("Image Saved!")
         WH.save(src)
+        self.Refresh()
 
     def layout(self) -> None:
         """Sets up the interface layout"""
@@ -153,6 +155,7 @@ class ImagePanel(wx.Panel):
         img = wx.Image(io_bytes).ConvertToBitmap()
 
         self.image_ctrl.SetBitmap(wx.Bitmap(img))
+        self.image_label.SetLabel("")
         self.Refresh()
 
     def update_image_via_pubsub(self, images):
