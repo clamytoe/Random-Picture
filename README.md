@@ -20,7 +20,7 @@ pip install -r requirements.txt
 
 If using [Anaconda](https://anaconda.org/):
 ```bash
-conda env create -f environment.yml
+conda env create
 source activate rpic
 ```
 
