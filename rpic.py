@@ -156,11 +156,15 @@ class Wallhaven:
             self.next()
 
     def save(self, url):
-        print("URL:", url)
+        """Save the image into the wallpapers directory
+
+        Args:
+            url (str): Hyperlink of the original image
+        """
         img_name = url.rsplit("/", 1)[1]
-        print("image:", img_name)
         wallpaper = path.join(self.wallpapers, img_name)
         copyfile(self.local_path, wallpaper)
+        print(f"Image Saved: {wallpaper}")
 
 
 def main() -> None:
