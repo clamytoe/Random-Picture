@@ -146,9 +146,7 @@ class Wallhaven:
 
             save = input("Backup the image (y/[n])? ")
             if "y" in save.lower():
-                img_name = src.split("/")[-1]
-                wallpaper = path.join(self.wallpapers, img_name)
-                copyfile(self.local_path, wallpaper)
+                self.save(src)
 
             self.current += 1
         else:
@@ -156,6 +154,13 @@ class Wallhaven:
             self.current = 0
             self.images = self.get_images()
             self.next()
+
+    def save(self, url):
+        print("URL:", url)
+        img_name = url.rsplit("/", 1)[1]
+        print("image:", img_name)
+        wallpaper = path.join(self.wallpapers, img_name)
+        copyfile(self.local_path, wallpaper)
 
 
 def main() -> None:
