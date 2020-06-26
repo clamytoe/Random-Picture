@@ -155,8 +155,8 @@ class ImagePanel(wx.Panel):
         img = wx.Image(io_bytes).ConvertToBitmap()
 
         self.image_ctrl.SetBitmap(wx.Bitmap(img))
-        self.image_label.SetLabel("")
-        self.Refresh()
+        self.image_label.SetLabel(f"{self.current_image + 1}/{self.total_images}")
+        self.Layout()
 
     def update_image_via_pubsub(self, images):
         """Update the image attributes
