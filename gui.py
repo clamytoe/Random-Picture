@@ -174,7 +174,7 @@ class ImagePanel(wx.Panel):
 class MainFrame(wx.Frame):
     def __post_init__(self) -> None:
         """Class initializer"""
-        super().__init__(None, title="Wallpaper Viewer", size=(310, 310))
+        super().__init__(None, title="Wallpaper Viewer", size=(310, 340))
         self.panel = ImagePanel(self)
         self.create_toolbar()
         self.on_reload()
