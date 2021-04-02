@@ -1,7 +1,9 @@
-from os import path, rmdir, unlink
+from os import path, rmdir, sys, unlink
 import pytest
 
 from rpic import Wallhaven
+
+PLATFORM = sys.platform
 
 
 @pytest.fixture(scope="session")
@@ -18,11 +20,17 @@ def test_url(haven):
 
 
 def test_local_path(haven):
-    assert haven.local_path == "/home/mohh/Pictures/wallpaper.jpg"
+    if PLATFORM == "win32":
+        assert haven.local_path == r"C:\Users\clamy\Pictures\wallpaper.jpg"
+    else:
+        assert haven.local_path == "/home/mohh/Pictures/wallpaper.jpg"
 
 
 def test_wallpapers(haven):
-    assert haven.wallpapers == "/home/mohh/Pictures/wallpapers"
+    if PLATFORM == "win32":
+        assert haven.wallpapers == r"C:\Users\clamy\Pictures\wallpapers"
+    else:
+        assert haven.wallpapers == "/home/mohh/Pictures/wallpapers"
 
 
 def test_check_dir(haven):
